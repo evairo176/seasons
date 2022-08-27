@@ -1,17 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import { createRoot } from "react-dom/client";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const el = document.querySelector("#root");
+const root = createRoot(el);
+// const App = () => {
+//   return <div>Hi tayo!</div>;
+// };
+
+class App extends React.Component {
+  render() {
+    window.navigator.geolocation.getCurrentPosition(
+      (Position) => console.log(Position),
+      (Err) => console.log(Err)
+    );
+    return <div>Hi tayo!</div>;
+  }
+}
+
+root.render(<App />);

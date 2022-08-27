@@ -9,12 +9,42 @@ const root = createRoot(el);
 // };
 
 class App extends React.Component {
-  render() {
+  constructor(props) {
+    super(props);
+
+    this.state = { lat: null, long: null, errorMessage: "" };
     window.navigator.geolocation.getCurrentPosition(
-      (Position) => console.log(Position),
-      (Err) => console.log(Err)
+      (position) => {
+        console.log(position);
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.longitude,
+          errorMessage: position.message,
+        });
+      },
+      (err) => {
+        this.setState({
+          errorMessage: err.message,
+        });
+      }
     );
-    return <div>Hi tayo!</div>;
+  }
+
+  render() {
+    if (this.state.errorMessage && !this.state.lat && !this.state.long) {
+      return <div>Message Error : {this.state.errorMessage}</div>;
+    }
+    if (!this.state.errorMessage && this.state.lat && this.state.long) {
+      return (
+        <div>
+          Latitude : {this.state.lat} <br />
+          Longitude : {this.state.long} <br />
+        </div>
+      );
+    }
+    if (!this.state.errorMessage && !this.state.lat && !this.state.long) {
+      return <div>Loading...</div>;
+    }
   }
 }
 

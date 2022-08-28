@@ -1,6 +1,8 @@
 import React from "react";
 
 import { createRoot } from "react-dom/client";
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
 
 const el = document.querySelector("#root");
 const root = createRoot(el);
@@ -9,13 +11,12 @@ const root = createRoot(el);
 // };
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  state = { lat: null, long: null, errorMessage: "" };
 
-    this.state = { lat: null, long: null, errorMessage: "" };
+  componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
+        // console.log(position);
         this.setState({
           lat: position.coords.latitude,
           long: position.coords.longitude,
@@ -29,22 +30,28 @@ class App extends React.Component {
       }
     );
   }
+  componentDidUpdate() {
+    console.log("update");
+  }
 
   render() {
     if (this.state.errorMessage && !this.state.lat && !this.state.long) {
-      return <div>Message Error : {this.state.errorMessage}</div>;
+      return (
+        <SeasonDisplay
+          errorMessage={"Message Error : " + this.state.errorMessage}
+        />
+      );
     }
     if (!this.state.errorMessage && this.state.lat && this.state.long) {
       return (
-        <div>
-          Latitude : {this.state.lat} <br />
-          Longitude : {this.state.long} <br />
-        </div>
+        <SeasonDisplay
+          lat={"latitude : " + this.state.lat}
+          long={"longitude : " + this.state.long}
+        />
       );
     }
-    if (!this.state.errorMessage && !this.state.lat && !this.state.long) {
-      return <div>Loading...</div>;
-    }
+
+    return <Spinner />;
   }
 }
 

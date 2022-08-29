@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import SeasonDisplay from "./SeasonDisplay";
 import Spinner from "./Spinner";
 
+// untuk menampilkan root
 const el = document.querySelector("#root");
 const root = createRoot(el);
 // const App = () => {

@@ -1,3 +1,4 @@
+import "./style/App.css";
 import React from "react";
 
 import { createRoot } from "react-dom/client";
@@ -34,8 +35,7 @@ class App extends React.Component {
   componentDidUpdate() {
     console.log("update");
   }
-
-  render() {
+  renderBodyContent() {
     if (this.state.errorMessage && !this.state.lat && !this.state.long) {
       return (
         <SeasonDisplay
@@ -52,7 +52,11 @@ class App extends React.Component {
       );
     }
 
-    return <Spinner />;
+    return <Spinner message="Please accept location request" />;
+  }
+
+  render() {
+    return <div className="border red">{this.renderBodyContent()}</div>;
   }
 }
 
